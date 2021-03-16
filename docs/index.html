@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.34.0/swagger-ui.css" >
+    <style>
+        html
+        {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
+        *,
+        *:before,
+        *:after
+        {
+            box-sizing: inherit;
+        }
+        body {
+            margin:0;
+            background: #fafafa;
+        }
+    </style>
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.34.0/swagger-ui-bundle.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.34.0/swagger-ui-standalone-preset.js"> </script>
+<script>
+    window.onload = function() {
+        var spec = {"openapi":"3.0.2","info":{"title":"Web App Gallery","version":"1.0"},"servers":[{"url":"http://localhost:3000"}],"paths":{"/api/me":{"get":{"security":[{"cookieAuth":[]}],"tags":["user"],"summary":"get logged in users information","responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"string"},"data":{"$ref":"#/components/schemas/User"}}}}}},"401":{"description":"unauthorized","content":{"application/json":{"schema":{"type":"object","$ref":"#/components/schemas/Error"}}}}}}},"/api/signup":{"post":{"security":[],"tags":["user","auth"],"summary":"create new user account","requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/NewUser"}}}},"responses":{"201":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"string"},"data":{"$ref":"#/components/schemas/User"}}}}}},"400":{"description":"ERROR","content":{"application/json":{"schema":{"type":"object","$ref":"#/components/schemas/Error"}}}}}}}},"components":{"securitySchemes":{"cookieAuth":{"type":"apiKey","in":"cookie","name":"token"}},"schemas":{"User":{"properties":{"_id":{"type":"string"},"firstName":{"type":"string"},"lastName":{"type":"string"},"email":{"type":"string"}}},"NewUser":{"properties":{"firstName":{"type":"string"},"lastName":{"type":"string"},"email":{"type":"string"},"password":{"type":"string"}}},"WebApp":{"properties":{"_id":{"type":"string"},"manifestUrl":{"type":"string"},"startUrl":{"type":"string"},"name":{"type":"string"},"description":{"type":"string"},"mobileWebAppCapable":{"type":"boolean"},"submittedBy":{"$ref":"#/components/schemas/User"},"reviews":{"type":"array","items":{"$ref":"#/components/schemas/Review"}}}},"Review":{"properties":{"_id":{"type":"string"},"rating":{"type":"integer"},"review":{"type":"string"},"user":{"$ref":"#/components/schemas/User"}}},"Error":{"properties":{"status":{"type":"string","enum":["error"]},"message":{"type":"string"}}}}}};
+
+        // Build a system
+        const ui = SwaggerUIBundle({
+            spec: spec,
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIStandalonePreset
+            ],
+            plugins: [
+                SwaggerUIBundle.plugins.DownloadUrl
+            ],
+            layout: "StandaloneLayout"
+        })
+        window.ui = ui
+    }
+</script>
+</body>
+</html>
