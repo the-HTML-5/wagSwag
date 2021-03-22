@@ -1,0 +1,27 @@
+{
+  "name": "wagSwag",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "docgen": "node ./node_modules/swagger-to-static/index.js swagger.json docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-HTML-5/wagSwag.git"
+  },
+  "keywords": [],
+  "author": "Chris Bailey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/the-HTML-5/wagSwag/issues"
+  },
+  "homepage": "https://github.com/the-HTML-5/wagSwag#readme",
+  "devDependencies": {
+    "prettier": "^2.2.1",
+    "swagger-to-static": "github:rafal-ksiazek-rmtcfm-com/swagger-to-static#bugfix/toJson-nofound"
+  }
+}
