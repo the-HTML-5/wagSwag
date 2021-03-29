@@ -14,24 +14,14 @@
         "summary": "get logged in users information",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "authenticated and user found",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": { "type": "string" },
+                    "status": { "type": "string", "example": "ok" },
                     "data": { "$ref": "#/components/schemas/User" }
-                  },
-                  "example": {
-                    "status": "ok",
-                    "data": {
-                      "_id": "605767d7038aa8fbffc65fbb",
-                      "firstName": "John",
-                      "lastName": "Doe",
-                      "email": "jondoe@example.com",
-                      "password": "qwe123"
-                    }
                   }
                 }
               }
@@ -59,17 +49,17 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "authenticated and session removed",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": { "type": "string" },
-                    "message": { "type": "string" }
-                  },
-                  "example": {
-                    "status": "ok"
+                    "status": { "type": "string", "example": "ok" },
+                    "message": {
+                      "type": "string",
+                      "example": "successfully logged out"
+                    }
                   }
                 }
               }
@@ -92,24 +82,14 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "credentials verified and user session created",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": { "type": "string" },
+                    "status": { "type": "string", "example": "ok" },
                     "data": { "$ref": "#/components/schemas/User" }
-                  },
-                  "example": {
-                    "status": "ok",
-                    "data": {
-                      "_id": "605767d7038aa8fbffc65fbb",
-                      "firstName": "John",
-                      "lastName": "Doe",
-                      "email": "jondoe@example.com",
-                      "password": "qwe123"
-                    }
                   }
                 }
               }
@@ -132,24 +112,14 @@
         },
         "responses": {
           "201": {
-            "description": "OK",
+            "description": "information validated and account created",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": { "type": "string" },
+                    "status": { "type": "string", "example": "ok" },
                     "data": { "$ref": "#/components/schemas/User" }
-                  },
-                  "example": {
-                    "status": "ok",
-                    "data": {
-                      "_id": "605767d7038aa8fbffc65fbb",
-                      "firstName": "John",
-                      "lastName": "Doe",
-                      "email": "jondoe@example.com",
-                      "password": "qwe123"
-                    }
                   }
                 }
               }
@@ -171,7 +141,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "returned list of web applications",
             "$ref": "#/components/responses/WebAppsReturn"
           },
           "400": {
@@ -186,7 +156,7 @@
           }
         ],
         "tags": ["webapp"],
-        "description": "submit a new web application",
+        "description": "data validated and new web application document created",
         "requestBody": {
           "$ref": "#/components/requestBodies/NewWebAppBody"
         },
@@ -236,30 +206,56 @@
     "schemas": {
       "User": {
         "properties": {
-          "_id": { "type": "string" },
-          "firstName": { "type": "string" },
-          "lastName": { "type": "string" },
-          "email": { "type": "string" }
+          "_id": { "type": "string", "example": "5d6ede6a0ba62570afcedd3a" },
+          "firstName": { "type": "string", "example": "John" },
+          "lastName": { "type": "string", "example": "Doe" },
+          "email": { "type": "string", "example": "johndoe@example.com" },
+          "createdAt": {
+            "type": "string",
+            "format": "date",
+            "example": "2021-03-29T18:44:53.030Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date",
+            "example": "2021-03-29T18:44:53.030Z"
+          }
         }
       },
       "WebApp": {
         "properties": {
-          "_id": { "type": "string" },
-          "manifestURL": { "type": "string" },
-          "startURL": { "type": "string" },
-          "name": { "type": "string" },
+          "_id": { "type": "string", "example": "5d6ede6a0ba62570afcedd3a" },
+          "manifestURL": {
+            "type": "string",
+            "example": "https://news.google.com/_/DotsSplashUi/manifest.json"
+          },
+          "startURL": { "type": "string", "example": "/?lfhs=2" },
+          "name": { "type": "string", "example": "Google News" },
           "description": { "type": "string" },
-          "mobileWebAppCapable": { "type": "boolean" },
-          "backgroundColor": { "type": "string" },
-          "themeColor": { "type": "string" },
+          "mobileWebAppCapable": { "type": "boolean", "example": true },
+          "backgroundColor": { "type": "string", "example": "white" },
+          "themeColor": { "type": "string", "example": "white" },
           "icons": {
             "type": "array",
             "items": {
               "properties": {
-                "src": { "type": "string" },
-                "purpose": { "type": "string" }
+                "src": {
+                  "type": "string",
+                  "example": "//ssl.gstatic.com/gnews/logo/google_news_192.png"
+                },
+                "sizes": { "type": "string", "example": "1024x1024" }
               }
             }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date",
+            "example": "2021-03-29T18:44:53.030Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date",
+            "example": "2021-03-29T18:44:53.030Z"
           }
         }
       },
@@ -268,7 +264,17 @@
           "_id": { "type": "string" },
           "rating": { "type": "integer" },
           "review": { "type": "string" },
-          "user": { "$ref": "#/components/schemas/User" }
+          "user": { "$ref": "#/components/schemas/User" },
+          "createdAt": {
+            "type": "string",
+            "format": "date",
+            "example": "2021-03-29T18:44:53.030Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date",
+            "example": "2021-03-29T18:44:53.030Z"
+          }
         }
       }
     },
@@ -280,16 +286,16 @@
             "schema": {
               "type": "object",
               "properties": {
-                "status": { "type": "string" },
-                "totalDocs": { "type": "integer" },
-                "limit": { "type": "integer" },
-                "page": { "type": "integer" },
-                "totalPages": { "type": "integer" },
-                "hasNextPage": { "type": "boolean" },
-                "nextPage": { "type": "integer" },
-                "hasPrevPage": { "type": "integer" },
-                "prevPage": { "type": "integer" },
-                "pagingCounter": { "type": "integer" },
+                "status": { "type": "string", "example": "ok" },
+                "totalDocs": { "type": "integer", "example": 50 },
+                "limit": { "type": "integer", "example": 10 },
+                "page": { "type": "integer", "example": 1 },
+                "totalPages": { "type": "integer", "example": 5 },
+                "hasNextPage": { "type": "boolean", "example": true },
+                "nextPage": { "type": "integer", "example": 2 },
+                "hasPrevPage": { "type": "integer", "example": false },
+                "prevPage": { "type": "integer", "example": null },
+                "pagingCounter": { "type": "integer", "example": 1 },
                 "data": {
                   "type": "array",
                   "items": {
@@ -302,13 +308,13 @@
         }
       },
       "WebAppReturn": {
-        "description": "single web application return",
+        "description": "application found and returned",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
               "properties": {
-                "status": { "type": "string" },
+                "status": { "type": "string", "example": "ok" },
                 "data": { "$ref": "#/components/schemas/WebApp" }
               }
             }
@@ -321,7 +327,7 @@
           "application/json": {
             "schema": {
               "properties": {
-                "status": { "type": "string" },
+                "status": { "type": "string", "example": "error" },
                 "message": { "type": "string" }
               }
             }
