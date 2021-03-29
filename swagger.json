@@ -1,7 +1,10 @@
 {
   "openapi": "3.0.2",
-  "info": { "title": "Web App Gallery", "version": "1.0" },
-  "servers": [{ "url": "http://localhost:3000" }],
+  "info": {
+    "title": "Web App Gallery",
+    "version": "1.0"
+  },
+  "servers": [ { "url": "http://localhost:3000" } ],
   "paths": {
     "/api/me": {
       "get": {
@@ -10,7 +13,7 @@
             "cookieAuth": []
           }
         ],
-        "tags": ["user"],
+        "tags": [ "user" ],
         "summary": "get logged in users information",
         "responses": {
           "200": {
@@ -59,8 +62,8 @@
     },
     "/api/logout": {
       "post": {
-        "security": ["cookieAuth"],
-        "tags": ["auth"],
+        "security": [ "cookieAuth" ],
+        "tags": [ "auth" ],
         "summary": "logout user",
         "requestBody": {
           "required": true,
@@ -105,7 +108,7 @@
     "/api/login": {
       "post": {
         "security": [],
-        "tags": ["auth"],
+        "tags": [ "auth" ],
         "summary": "login user",
         "requestBody": {
           "required": true,
@@ -159,7 +162,7 @@
     "/api/signup": {
       "post": {
         "security": [],
-        "tags": ["auth"],
+        "tags": [ "auth" ],
         "summary": "create new user account",
         "requestBody": {
           "required": true,
@@ -275,4 +278,25 @@
       }
     }
   }
+}, {
+  "deleteaccount": {
+    "properties": {
+      "email": { "type": "string" },
+      "password": { "type": "string" }
+
+
+
+    }
+  },
+  {
+    "UpdateInformation": {
+      "properties": {
+        "email" { "type": "string" },
+        "password": { "type": "string" },
+        "newEmail": { "type": "string" },
+        "newPassword" { "type": "string" }
+      }
+    }
+  }
 }
+
