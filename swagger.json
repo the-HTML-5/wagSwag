@@ -156,6 +156,60 @@
         }
       }
     },
+    "/api/signup": {
+      "post": {
+        "security": [],
+        "tags": ["auth"],
+        "summary": "create new user account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "data": { "$ref": "#/components/schemas/User" }
+                  },
+                  "example": {
+                    "status": "ok",
+                    "data": {
+                      "_id": "605767d7038aa8fbffc65fbb",
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "email": "jondoe@example.com",
+                      "password": "qwe123"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/webapp": {
       "post": {
         "security": [
@@ -217,23 +271,24 @@
         }
       }
     },
-    "/api/signup": {
-      "post": {
+    "/api/webapp/{id}": {
+      "get": {
         "security": [],
-        "tags": ["auth"],
-        "summary": "create new user account",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SignupUser"
-              }
-            }
+        "tags": ["webapp"],
+        "summary": "view single web application",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "id of the web application to get"
           }
-        },
+        ],
         "responses": {
-          "201": {
+          "200": {
             "description": "OK",
             "content": {
               "application/json": {
@@ -241,24 +296,14 @@
                   "type": "object",
                   "properties": {
                     "status": { "type": "string" },
-                    "data": { "$ref": "#/components/schemas/User" }
-                  },
-                  "example": {
-                    "status": "ok",
-                    "data": {
-                      "_id": "605767d7038aa8fbffc65fbb",
-                      "firstName": "John",
-                      "lastName": "Doe",
-                      "email": "jondoe@example.com",
-                      "password": "qwe123"
-                    }
+                    "data": { "$ref": "#/components/schemas/WebApp" }
                   }
                 }
               }
             }
           },
           "400": {
-            "description": "ERROR",
+            "description": "invalid request",
             "content": {
               "application/json": {
                 "schema": {
@@ -316,8 +361,10 @@
           "icons": {
             "type": "array",
             "items": {
-              "src": { "type": "string" },
-              "purpose": { "type": "string" }
+              "properties": {
+                "src": { "type": "string" },
+                "purpose": { "type": "string" }
+              }
             }
           }
         }
