@@ -156,6 +156,67 @@
         }
       }
     },
+    "/api/webapp": {
+      "post": {
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "tags": ["webapp"],
+        "summary": "submit a new web application",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "manifestURL": { "type": "string", "required": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "data": { "$ref": "#/components/schemas/WebApp" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/signup": {
       "post": {
         "security": [],
@@ -245,16 +306,18 @@
       "WebApp": {
         "properties": {
           "_id": { "type": "string" },
-          "manifestUrl": { "type": "string" },
-          "startUrl": { "type": "string" },
+          "manifestURL": { "type": "string" },
+          "startURL": { "type": "string" },
           "name": { "type": "string" },
           "description": { "type": "string" },
           "mobileWebAppCapable": { "type": "boolean" },
-          "submittedBy": { "$ref": "#/components/schemas/User" },
-          "reviews": {
+          "backgroundColor": { "type": "string" },
+          "themeColor": { "type": "string" },
+          "icons": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Review"
+              "src": { "type": "string" },
+              "purpose": { "type": "string" }
             }
           }
         }
