@@ -232,7 +232,7 @@
           "startURL": { "type": "string", "example": "/?lfhs=2" },
           "name": { "type": "string", "example": "Google News" },
           "description": { "type": "string" },
-          "mobileWebAppCapable": { "type": "boolean", "example": true },
+          "appleWebAppCapable": { "type": "boolean", "example": true },
           "backgroundColor": { "type": "string", "example": "white" },
           "themeColor": { "type": "string", "example": "white" },
           "icons": {
@@ -379,7 +379,14 @@
           "application/json": {
             "schema": {
               "properties": {
-                "manifestURL": { "type": "string" }
+                "appUrl": {
+                  "type": "string",
+                  "example": "http://news.google.com"
+                },
+                "appleMobileWebAppCapable": {
+                  "type": "boolean",
+                  "example": "true"
+                }
               }
             }
           }
