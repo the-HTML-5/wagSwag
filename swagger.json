@@ -43,9 +43,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  },
+                  "$ref": "#/components/schemas/Error",
                   "example": {
                     "status": "error",
                     "message": "Please authenticate to access"
@@ -59,7 +57,7 @@
     },
     "/api/logout": {
       "post": {
-        "security": ["cookieAuth"],
+        "security": [{ "cookieAuth": [] }],
         "tags": ["auth"],
         "summary": "logout user",
         "requestBody": {
@@ -211,6 +209,16 @@
       }
     },
     "/api/webapp": {
+      "get": {
+        "tags": ["webapp"],
+        "description": "get paginated list of web applications",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "post": {
         "security": [
           {
@@ -218,14 +226,14 @@
           }
         ],
         "tags": ["webapp"],
-        "summary": "submit a new web application",
+        "description": "submit a new web application",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "properties": {
-                  "manifestURL": { "type": "string", "required": true }
+                  "manifestURL": { "type": "string" }
                 }
               }
             }
@@ -233,18 +241,7 @@
         },
         "responses": {
           "201": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": { "type": "string" },
-                    "data": { "$ref": "#/components/schemas/WebApp" }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/WebAppReturn"
           },
           "401": {
             "description": "unauthorized",
@@ -258,15 +255,7 @@
             }
           },
           "400": {
-            "description": "invalid request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/Error"
           }
         }
       }
@@ -275,43 +264,18 @@
       "get": {
         "security": [],
         "tags": ["webapp"],
-        "summary": "view single web application",
+        "description": "view single web application",
         "parameters": [
           {
-            "in": "path",
-            "name": "id",
-            "schema": {
-              "type": "integer"
-            },
-            "required": true,
-            "description": "id of the web application to get"
+            "$ref": "#/components/parameters/AppID"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": { "type": "string" },
-                    "data": { "$ref": "#/components/schemas/WebApp" }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/WebAppReturn"
           },
           "400": {
-            "description": "invalid request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/Error"
           }
         }
       }
@@ -382,6 +346,43 @@
           "status": { "type": "string" },
           "message": { "type": "string" }
         }
+      }
+    },
+    "responses": {
+      "WebAppReturn": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string" },
+                "data": { "$ref": "#/components/schemas/WebApp" }
+              }
+            }
+          }
+        }
+      },
+      "Error": {
+        "description": "Standard error response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "AppID": {
+        "name": "id",
+        "in": "path",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "ID of requested application"
       }
     }
   }
