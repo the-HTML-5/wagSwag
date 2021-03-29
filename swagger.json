@@ -38,19 +38,8 @@
             }
           },
           "401": {
-            "description": "unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Error",
-                  "example": {
-                    "status": "error",
-                    "message": "Please authenticate to access"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/StandardError",
+            "description": "unauthorized access"
           }
         }
       }
@@ -87,15 +76,8 @@
             }
           },
           "401": {
-            "description": "unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/StandardError",
+            "description": "unauthorized access"
           }
         }
       }
@@ -106,14 +88,7 @@
         "tags": ["auth"],
         "summary": "login user",
         "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginCredentials"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/LoginCredentials"
         },
         "responses": {
           "200": {
@@ -141,15 +116,8 @@
             }
           },
           "401": {
-            "description": "unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/StandardError",
+            "description": "unauthorized access"
           }
         }
       }
@@ -160,14 +128,7 @@
         "tags": ["auth"],
         "summary": "create new user account",
         "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SignupUser"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/NewUserBody"
         },
         "responses": {
           "201": {
@@ -195,15 +156,7 @@
             }
           },
           "400": {
-            "description": "ERROR",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/StandardError"
           }
         }
       }
@@ -228,34 +181,18 @@
         "tags": ["webapp"],
         "description": "submit a new web application",
         "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "manifestURL": { "type": "string" }
-                }
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/NewWebAppBody"
         },
         "responses": {
           "201": {
             "$ref": "#/components/responses/WebAppReturn"
           },
           "401": {
-            "description": "unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "$ref": "#/components/responses/StandardError",
+            "description": "unauthorized access"
           },
           "400": {
-            "$ref": "#/components/responses/Error"
+            "$ref": "#/components/responses/StandardError"
           }
         }
       }
@@ -275,7 +212,7 @@
             "$ref": "#/components/responses/WebAppReturn"
           },
           "400": {
-            "$ref": "#/components/responses/Error"
+            "$ref": "#/components/responses/StandardError"
           }
         }
       }
@@ -296,20 +233,6 @@
           "firstName": { "type": "string" },
           "lastName": { "type": "string" },
           "email": { "type": "string" }
-        }
-      },
-      "SignupUser": {
-        "properties": {
-          "firstName": { "type": "string" },
-          "lastName": { "type": "string" },
-          "email": { "type": "string" },
-          "password": { "type": "string" }
-        }
-      },
-      "LoginCredentials": {
-        "properties": {
-          "email": { "type": "string" },
-          "password": { "type": "string" }
         }
       },
       "WebApp": {
@@ -340,12 +263,6 @@
           "review": { "type": "string" },
           "user": { "$ref": "#/components/schemas/User" }
         }
-      },
-      "Error": {
-        "properties": {
-          "status": { "type": "string" },
-          "message": { "type": "string" }
-        }
       }
     },
     "responses": {
@@ -363,12 +280,15 @@
           }
         }
       },
-      "Error": {
+      "StandardError": {
         "description": "Standard error response",
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "properties": {
+                "status": { "type": "string" },
+                "message": { "type": "string" }
+              }
             }
           }
         }
@@ -383,6 +303,48 @@
         },
         "required": true,
         "description": "ID of requested application"
+      }
+    },
+    "requestBodies": {
+      "NewWebAppBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "manifestURL": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "NewUserBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "firstName": { "type": "string" },
+                "lastName": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "LoginCredentials": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "email": { "type": "string" },
+                "password": { "type": "string" }
+              }
+            }
+          }
+        }
       }
     }
   }
