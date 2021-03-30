@@ -3,33 +3,89 @@
   "info": { "title": "Web App Gallery", "version": "1.0" },
   "servers": [{ "url": "http://localhost:3000" }],
   "paths": {
+    "/api/me/updatePassword": {
+      "put": {
+        "tags": ["user"],
+        "description": "change users current password",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/SuccessMessageReturn"
+          },
+          "400": {
+            "$ref": "#/components/responses/StandardError"
+          },
+          "401": {
+            "$ref": "#/components/responses/StandardError"
+          }
+        }
+      }
+    },
+    "/api/me/destroy": {
+      "delete": {
+        "tags": ["user"],
+        "description": "delete user account",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SuccessMessageReturn"
+          },
+          "401": {
+            "$ref": "#/components/responses/StandardError",
+            "description": "unauthorized access"
+          },
+          "400": {
+            "$ref": "#/components/responses/StandardError"
+          }
+        }
+      }
+    },
     "/api/me": {
+      "put": {
+        "description": "update user account",
+        "tags": ["user"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UpdateUserBody"
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/UserInfoResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/StandardError"
+          },
+          "401": {
+            "$ref": "#/components/responses/StandardError"
+          }
+        }
+      },
       "get": {
         "security": [
           {
             "cookieAuth": []
           }
         ],
+        "description": "get logged in users information",
         "tags": ["user"],
-        "summary": "get logged in users information",
         "responses": {
           "200": {
-            "description": "authenticated and user found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": { "type": "string", "example": "ok" },
-                    "data": { "$ref": "#/components/schemas/User" }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/UserInfoResponse"
           },
           "401": {
-            "$ref": "#/components/responses/StandardError",
-            "description": "unauthorized access"
+            "$ref": "#/components/responses/StandardError"
           }
         }
       }
@@ -38,7 +94,7 @@
       "post": {
         "security": [{ "cookieAuth": [] }],
         "tags": ["auth"],
-        "summary": "logout user",
+        "description": "logout user",
         "requestBody": {
           "required": true,
           "content": {
@@ -76,7 +132,7 @@
       "post": {
         "security": [],
         "tags": ["auth"],
-        "summary": "login user",
+        "description": "login user",
         "requestBody": {
           "$ref": "#/components/requestBodies/LoginCredentials"
         },
@@ -106,7 +162,7 @@
       "post": {
         "security": [],
         "tags": ["auth"],
-        "summary": "create new user account",
+        "description": "create new user account",
         "requestBody": {
           "$ref": "#/components/requestBodies/NewUserBody"
         },
@@ -279,6 +335,34 @@
       }
     },
     "responses": {
+      "UserInfoResponse": {
+        "description": "User information sanitized return",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string", "example": "ok" },
+                "data": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          }
+        }
+      },
+      "SuccessMessageReturn": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string", "example": "ok" },
+                "message": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
       "WebAppsReturn": {
         "description": "paginated list of web applications",
         "content": {
@@ -398,10 +482,24 @@
           "application/json": {
             "schema": {
               "properties": {
-                "firstName": { "type": "string" },
-                "lastName": { "type": "string" },
-                "email": { "type": "string" },
-                "password": { "type": "string" }
+                "firstName": { "type": "string", "example": "John" },
+                "lastName": { "type": "string", "example": "Doe" },
+                "email": { "type": "string", "example": "john@example.com" },
+                "password": { "type": "string", "example": "asd123qwe456" }
+              }
+            }
+          }
+        }
+      },
+      "UpdateUserBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "firstName": { "type": "string", "example": "John" },
+                "lastName": { "type": "string", "example": "Doe" },
+                "email": { "type": "string", "example": "john@example.com" }
               }
             }
           }
@@ -413,8 +511,8 @@
           "application/json": {
             "schema": {
               "properties": {
-                "email": { "type": "string" },
-                "password": { "type": "string" }
+                "email": { "type": "string", "example": "jon@example.com" },
+                "password": { "type": "string", "example": "asd123qwe456" }
               }
             }
           }
