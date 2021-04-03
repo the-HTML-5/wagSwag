@@ -193,7 +193,8 @@
         "description": "get paginated list of web applications",
         "parameters": [
           { "$ref": "#/components/parameters/limit" },
-          { "$ref": "#/components/parameters/page" }
+          { "$ref": "#/components/parameters/page" },
+          { "$ref": "#/components/parameters/search" }
         ],
         "responses": {
           "200": {
@@ -420,6 +421,16 @@
       }
     },
     "parameters": {
+      "search": {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "description": "return regex search of web application names",
+        "schema": {
+          "type": "string"
+        },
+        "example": "/api/webapp?search=apple"
+      },
       "limit": {
         "name": "limit",
         "in": "query",
@@ -470,6 +481,10 @@
                 "appleMobileWebAppCapable": {
                   "type": "boolean",
                   "example": "true"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "google new web application"
                 }
               }
             }
