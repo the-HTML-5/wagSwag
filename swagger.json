@@ -293,6 +293,7 @@
           "backgroundColor": { "type": "string", "example": "white" },
           "themeColor": { "type": "string", "example": "white" },
           "category": { "type": "string", "example": "news" },
+          "submittedBy": { "$ref": "#/components/schemas/User" },
           "icons": {
             "type": "array",
             "items": {
