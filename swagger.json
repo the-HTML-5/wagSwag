@@ -292,6 +292,7 @@
           "appleWebAppCapable": { "type": "boolean", "example": true },
           "backgroundColor": { "type": "string", "example": "white" },
           "themeColor": { "type": "string", "example": "white" },
+          "category": { "type": "string", "example": "news" },
           "icons": {
             "type": "array",
             "items": {
