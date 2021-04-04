@@ -194,7 +194,8 @@
         "parameters": [
           { "$ref": "#/components/parameters/limit" },
           { "$ref": "#/components/parameters/page" },
-          { "$ref": "#/components/parameters/search" }
+          { "$ref": "#/components/parameters/search" },
+          { "$ref": "#/components/parameters/category" }
         ],
         "responses": {
           "200": {
@@ -423,6 +424,16 @@
       }
     },
     "parameters": {
+      "category": {
+        "name": "category",
+        "in": "query",
+        "required": false,
+        "description": "category to filter by",
+        "schema": {
+          "type": "string"
+        },
+        "example": "/api/webapp?category=news"
+      },
       "search": {
         "name": "search",
         "in": "query",
@@ -486,7 +497,7 @@
                 },
                 "category": {
                   "type": "string",
-                  "example": "google new web application"
+                  "example": "news"
                 }
               }
             }
