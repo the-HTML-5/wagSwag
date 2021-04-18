@@ -3,6 +3,85 @@
   "info": { "title": "Web App Gallery", "version": "1.0" },
   "servers": [{ "url": "http://localhost:3000" }],
   "paths": {
+    "/api/review/{id}": {
+      "delete": {
+        "description": "remove user review",
+        "tags": ["review"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [{ "$ref": "#/components/parameters/ReviewID" }],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SuccessMessageReturn"
+          },
+          "401": {
+            "$ref": "#/components/responses/StandardError",
+            "description": "unauthorized access"
+          },
+          "400": {
+            "$ref": "#/components/responses/StandardError"
+          }
+        }
+      },
+      "put": {
+        "description": "Update user review",
+        "tags": ["review"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [{ "$ref": "#/components/parameters/ReviewID" }],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/NewReviewBody"
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/NewReviewResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/StandardError"
+          },
+          "401": {
+            "$ref": "#/components/responses/StandardError"
+          }
+        }
+      }
+    },
+    "/api/webapp/{id}/review": {
+      "post": {
+        "description": "add review to a web application",
+        "tags": ["webapp", "review"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AppID"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/NewReviewBody"
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/NewReviewResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/StandardError",
+            "description": "unauthorized access"
+          },
+          "400": {
+            "$ref": "#/components/responses/StandardError"
+          }
+        }
+      }
+    },
     "/api/me/updatePassword": {
       "put": {
         "tags": ["user"],
@@ -295,6 +374,11 @@
           "themeColor": { "type": "string", "example": "white" },
           "category": { "type": "string", "example": "news" },
           "submittedBy": { "$ref": "#/components/schemas/User" },
+          "reviews": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Review" }
+          },
+          "avgRating": { "type": "integer", "minimum": 5, "example": 3.5 },
           "icons": {
             "type": "array",
             "items": {
@@ -322,8 +406,8 @@
       "Review": {
         "properties": {
           "_id": { "type": "string" },
-          "rating": { "type": "integer" },
-          "review": { "type": "string" },
+          "rating": { "type": "integer", "example": 4 },
+          "review": { "type": "string", "example": "This is awesome" },
           "user": { "$ref": "#/components/schemas/User" },
           "createdAt": {
             "type": "string",
@@ -339,6 +423,20 @@
       }
     },
     "responses": {
+      "NewReviewResponse": {
+        "description": "Return object from review creation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string", "example": "ok" },
+                "data": { "$ref": "#/components/schemas/Review" }
+              }
+            }
+          }
+        }
+      },
       "UserInfoResponse": {
         "description": "User information sanitized return",
         "content": {
@@ -478,6 +576,16 @@
         "required": true,
         "description": "ID of requested application",
         "example": "/api/webapp/507f191e810c19729de860ea"
+      },
+      "ReviewID": {
+        "name": "id",
+        "in": "path",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "ID of requested review",
+        "example": "/api/review/507f191e810c19729de860ea"
       }
     },
     "requestBodies": {
@@ -541,6 +649,22 @@
               "properties": {
                 "email": { "type": "string", "example": "jon@example.com" },
                 "password": { "type": "string", "example": "asd123qwe456" }
+              }
+            }
+          }
+        }
+      },
+      "NewReviewBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "review": {
+                  "type": "string",
+                  "example": "This app could use some work"
+                },
+                "rating": { "type": "integer", "example": 3 }
               }
             }
           }
