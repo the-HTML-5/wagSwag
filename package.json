@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "docgen": "node ./node_modules/swagger-to-static/index.js swagger.json docs"
+    "docgen": "node ./node_modules/swagger-to-static/index.js swagger.yml docs"
   },
   "repository": {
     "type": "git",
