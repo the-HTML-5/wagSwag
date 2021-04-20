@@ -3,5 +3,8 @@
     "gnews",
     "gstatic",
     "lfhs"
+  ],
+  "conventionalCommits.scopes": [
+    "WebApp (schema)"
   ]
 }

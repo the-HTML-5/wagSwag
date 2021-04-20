@@ -307,7 +307,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Review'
-        avgRating:
+        averageRating:
           type: integer
           minimum: 5
           example: 3.5
