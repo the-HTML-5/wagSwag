@@ -53,7 +53,7 @@ paths:
           $ref: '#/components/responses/StandardError'
         '401':
           $ref: '#/components/responses/StandardError'
-  '/api/webapp/{id}/review':
+  '/api/webapp/{id}/reviews':
     post:
       description: add review to a web application
       tags:
