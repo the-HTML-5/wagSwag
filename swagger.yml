@@ -273,6 +273,17 @@ components:
           type: string
           format: date
           example: '2021-03-29T18:44:53.030Z'
+    SanitizedUser:
+      properties:
+        _id:
+          type: string
+          example: 5d6ede6a0ba62570afcedd3a
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
     WebApp:
       properties:
         _id:
@@ -329,6 +340,58 @@ components:
           type: string
           format: date
           example: '2021-03-29T18:44:53.030Z'
+    WebApps:
+      properties:
+        _id:
+          type: string
+          example: 5d6ede6a0ba62570afcedd3a
+        manifestURL:
+          type: string
+          example: 'https://news.google.com/_/DotsSplashUi/manifest.json'
+        startURL:
+          type: string
+          example: /?lfhs=2
+        name:
+          type: string
+          example: Google News
+        description:
+          type: string
+        appleWebAppCapable:
+          type: boolean
+          example: true
+        backgroundColor:
+          type: string
+          example: white
+        themeColor:
+          type: string
+          example: white
+        category:
+          type: string
+          example: news
+        submittedBy:
+          $ref: '#/components/schemas/SanitizedUser'
+        averageRating:
+          type: integer
+          minimum: 5
+          example: 3.5
+        icons:
+          type: array
+          items:
+            properties:
+              src:
+                type: string
+                example: //ssl.gstatic.com/gnews/logo/google_news_192.png
+              sizes:
+                type: string
+                example: 1024x1024
+        createdAt:
+          type: string
+          format: date
+          example: '2021-03-29T18:44:53.030Z'
+        updatedAt:
+          type: string
+          format: date
+          example: '2021-03-29T18:44:53.030Z'
     Review:
       properties:
         _id:
@@ -340,7 +403,7 @@ components:
           type: string
           example: This is awesome
         user:
-          $ref: '#/components/schemas/User'
+          $ref: '#/components/schemas/SanitizedUser'
         webapp:
           $ref: '#/components/schemas/WebApp'
         createdAt:
@@ -442,7 +505,7 @@ components:
               data:
                 type: array
                 items:
-                  $ref: '#/components/schemas/WebApp'
+                  $ref: '#/components/schemas/WebApps'
     WebAppReturn:
       description: application found and returned
       content:
